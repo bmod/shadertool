@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.9)
+cmake_minimum_required(VERSION 3.8)
 project(shadertool)
 
 # First, let cmake know where the Qt library path is, we go from there.
@@ -34,9 +34,11 @@ macro(qt5_copy_dll APP DLL)
 endmacro()
 
 
-find_package(Qt5Core REQUIRED)
+find_package(Qt5Gui REQUIRED)
+#find_package(Qt5Core REQUIRED)
 find_package(Qt5Widgets REQUIRED)
 find_library(Qt5OpenGL REQUIRED)
+find_package(OpenGL)
 
 set(CMAKE_AUTOMOC ON)
 
@@ -47,12 +49,13 @@ file(GLOB_RECURSE UI_HEADERS src/*.ui)
 add_executable(${PROJECT_NAME} ${SOURCES} ${UI_HEADERS} ${HEADERS})
 target_include_directories(${PROJECT_NAME} PUBLIC src)
 
-qt5_use_modules(${PROJECT_NAME} Core Widgets OpenGL)
+qt5_use_modules(${PROJECT_NAME} Gui Widgets OpenGL)
 
-target_link_libraries(${PROJECT_NAME} Qt5::Widgets Qt5::OpenGL gl) # rendertest
+target_link_libraries(${PROJECT_NAME} ${QT_LIBRARIES} ${OPENGL_LIBRARIES})
 
-qt5_copy_dll(${PROJECT_NAME} Core)
-qt5_copy_dll(${PROJECT_NAME} Gui)
-qt5_copy_dll(${PROJECT_NAME} Widgets)
-qt5_copy_dll(${PROJECT_NAME} OpenGL)
-
+if (WIN32)
+    qt5_copy_dll(${PROJECT_NAME} Core)
+    qt5_copy_dll(${PROJECT_NAME} Gui)
+    qt5_copy_dll(${PROJECT_NAME} Widgets)
+    qt5_copy_dll(${PROJECT_NAME} OpenGL)
+endif()

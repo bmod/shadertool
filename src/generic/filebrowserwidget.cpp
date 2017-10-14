@@ -1,11 +1,18 @@
+#include <QtWidgets/QStyleOption>
 #include "filebrowserwidget.h"
 
 FileBrowserWidget::FileBrowserWidget(const QString& label) : QWidget() {
     setLayout(&mLayout);
+    int margins = 2;
+    mLayout.setContentsMargins(margins, margins, margins, margins);
     mLayout.addWidget(&mLabel);
     mLayout.addWidget(&mLineEdit);
     mLayout.addWidget(&mBrowseButton);
     mLabel.setText(label);
+
+
+    QStyleOption op;
+    mBrowseButton.setIcon(style()->standardIcon(QStyle::SP_FileDialogStart, &op));
 
     connect(&mLineEdit, &QLineEdit::editingFinished,
             this, &FileBrowserWidget::onLineEditChanged);

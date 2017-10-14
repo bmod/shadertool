@@ -1,9 +1,13 @@
-attribute vec2 aPos;
-attribute vec2 aUV;
-varying vec2 vUV;
+attribute highp vec4 posAttr;
+attribute lowp vec4 colAttr;
+varying lowp vec4 col;
+varying lowp vec2 pos;
+uniform highp mat4 matrix;
+
 
 void main() {
-    gl_Position = vec4(aPos, 0.0, 1.0);
-    vUV = aUV;
+   col = colAttr;
+   pos = posAttr.xy;
+   gl_Position = matrix * posAttr;
 }
 

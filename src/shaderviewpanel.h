@@ -6,6 +6,7 @@
 #include <generic/filebrowserwidget.h>
 #include <generic/filewatcher.h>
 #include <QtCore/QFileSystemWatcher>
+#include <QtWidgets/QSpinBox>
 #include "openglwidget.h"
 
 
@@ -22,12 +23,25 @@ private:
     void onFileModified(const QString& path);
 
     void updateWatcherPaths();
+    void onToggleAnimating();
+    void onFrameUpdated();
+    void updateUI();
+
 
 
     QVBoxLayout mLayout;
+    QHBoxLayout mSettingsLayout;
+
     OpenGLWidget mGLWidget;
     FileBrowserWidget mFileBrowserVertShader;
     FileBrowserWidget mFileBrowserFragShader;
+
+    QLabel mTimeLabel;
+    QPushButton mResetTime;
+    QPushButton mAnimate;
+    QSpinBox mFps;
+
+    QTimer mTimeLabelTimer;
 
     FileWatcher mFileWatcher;
 };
