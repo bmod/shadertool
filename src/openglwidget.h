@@ -41,7 +41,7 @@ protected:
 
     void paintGL() override;
 
-    void updateShaders();
+    bool updateShaders();
 
     long updateTime();
 

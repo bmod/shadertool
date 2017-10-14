@@ -82,46 +82,12 @@ void OpenGLWidget::paintGL()
     updateTime();
 
 
-    if (mShaderDirty) {
-        mProgram.removeAllShaders();
-        qDebug() << "Reloading shaders";
-        if (!mProgram.addShaderFromSourceFile(QOpenGLShader::Vertex, mVertShaderFile)) {
-            qDebug() << "Failed to load: " << mVertShaderFile;
-            qDebug() << mProgram.log();
-            mShaderDirty = false;
-//            return false;
-        }
-
-        if (!mProgram.addShaderFromSourceFile(QOpenGLShader::Fragment, mFragShaderFile)) {
-            qDebug() << "Failed to load: " << mFragShaderFile;
-            qDebug() << mProgram.log();
-            mShaderDirty = false;
-//            return false;
-        }
-
-        if (!mProgram.link()) {
-            mShaderDirty = false;
-//            return false;
-        }
-        mPosAttr = mProgram.attributeLocation("posAttr");
-        mColAttr = mProgram.attributeLocation("colAttr");
-
-
-        mResolutionUniform = mProgram.uniformLocation("res");
-        mMatrixUniform = mProgram.uniformLocation("matrix");
-        mTimeUniform = mProgram.uniformLocation("time");
-        mShaderDirty = false;
-    }
 
 
 
 
 
-
-
-
-
-//    refreshShaders();
+    updateShaders();
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -169,9 +135,41 @@ void OpenGLWidget::onTimer()
     updated();
 }
 
-void OpenGLWidget::updateShaders()
+bool OpenGLWidget::updateShaders()
 {
+    if (mShaderDirty) {
+        mProgram.removeAllShaders();
+        qDebug() << "Reloading shaders";
+        if (!mProgram.addShaderFromSourceFile(QOpenGLShader::Vertex, mVertShaderFile)) {
+            qDebug() << "Failed to load: " << mVertShaderFile;
+            qDebug() << mProgram.log();
+            mShaderDirty = false;
+            return false;
+        }
 
+        if (!mProgram.addShaderFromSourceFile(QOpenGLShader::Fragment, mFragShaderFile)) {
+            qDebug() << "Failed to load: " << mFragShaderFile;
+            qDebug() << mProgram.log();
+            mShaderDirty = false;
+            return false;
+        }
+
+        if (!mProgram.link()) {
+            mShaderDirty = false;
+            return false;
+        }
+        mPosAttr = mProgram.attributeLocation("posAttr");
+        mColAttr = mProgram.attributeLocation("colAttr");
+
+
+        mResolutionUniform = mProgram.uniformLocation("res");
+        mMatrixUniform = mProgram.uniformLocation("matrix");
+        mTimeUniform = mProgram.uniformLocation("time");
+        mShaderDirty = false;
+    }
+
+
+    return true;
 }
 
 long OpenGLWidget::updateTime()
