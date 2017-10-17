@@ -1,4 +1,4 @@
-#include <generic/basewindow.h>
+#include "../../baseoneclib/qtlib/src/basewindow.h"
 
 #include <qdebug.h>
 #include <QtGui/QSurfaceFormat>

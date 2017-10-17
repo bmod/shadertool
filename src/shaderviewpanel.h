@@ -3,8 +3,8 @@
 
 #include <QtWidgets/QWidget>
 #include <QtWidgets/QVBoxLayout>
-#include <generic/filebrowserwidget.h>
-#include <generic/filewatcher.h>
+#include "../../baseoneclib/qtlib/src/filebrowserwidget.h"
+#include "../../baseoneclib/qtlib/src/filewatcher.h"
 #include <QtCore/QFileSystemWatcher>
 #include <QtWidgets/QSpinBox>
 #include "openglwidget.h"
